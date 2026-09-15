@@ -29,7 +29,7 @@ PREIshare appears to be organized as: **single package**. There is one root `pac
 | `package.json` | config | Root package manifest (`preishare-org-repo`) and npm scripts | yes |
 | `package-lock.json` | config | npm lockfile for reproducible installs | yes |
 | `README.md` | docs | Scaffold “getting started” notes for TanStack Start | yes |
-| `AGENTS.md` | docs / agent | Agent-facing project context and TanStack Intent skill-loading notes | yes |
+| `AGENTS.md` | docs / agent | Two-minute human-and-agent onboarding; TanStack Intent skill-loading block at top | yes |
 | `.cursorrules` | config | Cursor/agent rules (layout, TypeScript, future Supabase client path) | yes |
 | `.cta.json` | config | TanStack create-app metadata (file-router, Tailwind, npm, no add-ons) | yes |
 | `tsconfig.json` | config | TypeScript compiler options (strict mode, `#/*` and `@/*` → `src/*`) | yes |

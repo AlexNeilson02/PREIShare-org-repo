@@ -12,13 +12,15 @@ alwaysApply: true
 
 # PREIshare — agent rules
 
+Skim the two-minute overview in root `AGENTS.md`. This file is the always-apply constraint list. Both must stay aligned with `docs/onboarding/repo-map.md` and the working tree.
+
 ## Project identity
 
 PREIshare is a real-estate intelligence product. This repository is a **single-package** TanStack Start app at the repo root (`package.json` name `preishare-org-repo`), not an `apps/` + `packages/` monorepo.
 
 Prefer existing files and patterns in this tree over greenfield frameworks, extra apps, or a workspace layout that is not here. If `docs/onboarding/repo-map.md` and the working tree disagree, **trust the tree** and update the map.
 
-Sources used for this draft: `docs/onboarding/repo-map.md`, `docs/onboarding/setup-log.md`, `.cursorrules`, and `AGENTS.md`. `docs/onboarding/team-orientation-notes.md` is cited in the setup log but **was not in this clone** — do not invent its contents.
+Sources used for this draft: `docs/onboarding/repo-map.md`, `docs/onboarding/setup-log.md`, `.cursorrules`, and root `AGENTS.md`. `docs/onboarding/team-orientation-notes.md` is cited in the setup log but **was not in this clone** — do not invent its contents.
 
 ## Stack (do not substitute)
 
@@ -78,6 +80,7 @@ Avoid unless explicitly tasked:
 
 ## Agent workflow
 
+- Plan → small diff → verify (see root `AGENTS.md`)
 - Restate the goal and list files you will touch before editing
 - Implement in small steps; stop for verification after each logical unit
 - When unsure about PREIshare structure, consult `docs/onboarding/` and the repo map rather than inventing paths
