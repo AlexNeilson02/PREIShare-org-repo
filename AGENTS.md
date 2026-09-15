@@ -9,94 +9,62 @@ Before editing files for a substantial task:
 - Multiple matches: prefer the most specific local skill for the package or concern you are changing; load additional skills only when the task spans multiple packages or concerns.
 <!-- intent-skills:end -->
 
-# Project context
+# PREIshare
 
-## Scaffold commands
+Human-and-agent onboarding memory. Skim this, then follow `.cursor/rules/preishare.mdc`. If this file and the working tree disagree, **trust the tree** and update `docs/onboarding/repo-map.md`.
 
-Exact CLI used (initially created a nested folder, then merged into this repo root):
+## What it is
 
-```bash
-npx @tanstack/cli@latest create my-tanstack-app --agent --package-manager npm --tailwind
-```
+PREIshare is a real-estate intelligence product. **This repo** is a single-package TanStack Start app at the root (`package.json` name `preishare-org-repo`) — not an `apps/` + `packages/` monorepo.
 
-Notes from CLI:
-- `--tailwind` is deprecated/ignored; Tailwind is already enabled in the standard TanStack Start scaffold.
-- No partner add-ons were selected (`chosenAddOns: []`). Blank React Start starter only.
+Current UI is the blank starter: Home (`/`) and About (`/about`) under `src/`. There is no wired database, auth, or CI in the tree. `src/lib/user.ts` `getUser()` always returns `null` (a stub, not login).
 
-Follow-up Intent commands (run from this repo root):
+## Stack (verified)
 
-```bash
-npx @tanstack/intent@latest install
-npx @tanstack/intent@latest list
-```
+- TypeScript (strict), React 19, TanStack Start + file-based Router, Vite 8, Tailwind CSS v4
+- Package manager: **npm** (`package-lock.json`)
+- Product direction includes Supabase, PostgreSQL, and pgvector — **not present** (no `src/lib/supabase.ts`, no migrations, no `.env.example`)
 
-Result: 9 intent-enabled packages, 31 skills (Start, Router, Devtools, Virtual File Routes).
+Do not substitute Next.js, another CSS stack, or pnpm unless a human explicitly tasks that.
 
-## Chosen stack
+## Scripts (from `package.json` / repo-map)
 
-| Choice | Value |
-|--------|--------|
-| Framework | React 19 + TanStack Start |
-| Starter | Blank / default file-router preset |
-| Package manager | npm |
-| Styling | Tailwind CSS v4 (`@tailwindcss/vite`) |
-| Toolchain | Vite 8 + TypeScript (default CLI toolchain) |
-| Router | TanStack Router file-based routes (`src/routes`) |
-| Integrations / add-ons | None |
+There is no `test`, `lint`, or `format` script. Do not invent them.
 
-## Layout (preserve unless there is a clear reason to change)
+| Script | What it is |
+|--------|------------|
+| `npm run dev` | Vite dev server on port 3000 |
+| `npm run build` | Production build |
+| `npm run preview` | Serve the production build |
+| `npm run generate-routes` | TanStack Router codegen (`tsr generate`) |
 
-- `src/routes/` — file routes (`__root.tsx`, `index.tsx`, `about.tsx`)
-- `src/router.tsx` — router factory
-- `src/components/` — Header, Footer, ThemeToggle
-- `src/styles.css` — Tailwind entry
-- `vite.config.ts` — `devtools()`, `tailwindcss()`, `tanstackStart()`, `viteReact()`
-- `tsr.config.json` — route generation config
-- `.cta.json` — scaffold metadata
+## Where to look
 
-Package name in `package.json` is `preishare-org-repo` (repo root). App lives at the repository root, not under `my-tanstack-app/`.
+| Path | Why |
+|------|-----|
+| `docs/onboarding/` | Onboarding notes. Start with `docs/onboarding/repo-map.md`. Also `docs/onboarding/setup-log.md`. |
+| `.cursor/rules/preishare.mdc` | Always-apply agent rules: identity, stack, safe surfaces, do-nots |
+| `src/routes/`, `src/components/`, `src/styles.css` | App UI |
+| `README.md` | Scaffold getting-started |
 
-## Environment variables
+`docs/onboarding/team-orientation-notes.md` is named in the setup log but **is not in this clone** — do not invent it.
 
-None required for the blank scaffold.
+## How agents should work
 
-When adding secrets or config later (from `@tanstack/start-client-core#start-core/execution-model`):
-- **Server-only:** read `process.env.MY_SECRET` inside handlers / `createServerFn` / per-request code — never at module scope, never with a `VITE_` prefix.
-- **Client-exposed:** only `VITE_*` via `import.meta.env.VITE_*`.
-- Do not put secrets in `VITE_*` variables (they ship in the client bundle).
-- `.env` is gitignored.
+1. **Plan** — Restate the goal and list files you will touch. Read the repo map and `.cursor/rules/preishare.mdc` before creating paths.
+2. **Small diff** — Smallest change that finishes the task. Match neighbors. No drive-by refactors or new libraries unless asked.
+3. **Verify** — Stop after each logical unit. For Start/Router/Devtools work, load a matching Intent skill from the block above (this repo is single-package; the monorepo bullet there rarely applies).
 
-## Scripts
+New contributors: prefer `docs/` (especially `docs/onboarding/`) and `README.md` unless a mentor expands scope.
 
-```bash
-npm install
-npm run dev      # Vite on port 3000
-npm run build
-npm run preview
-npm run generate-routes
-```
+## Do not
 
-## Deployment notes
+- Commit `.env`, keys, tokens, or connection strings. Document variable **names** only.
+- Hand-edit `src/routeTree.gen.ts`. Avoid `src/router.tsx`, `vite.config.ts`, and `src/routes/__root.tsx` unless tasked.
+- Invent `apps/`, `packages/`, GitHub Actions, a Supabase client, or auth/billing/migrations.
+- Rewrite the app for “best practices” or change product requirements silently.
+- Upgrade `package.json` / `package-lock.json` unless that is the task.
 
-Blank scaffold has no host-specific adapter yet. TanStack Start deploys via Vite + Nitro (see `npx @tanstack/intent@latest load @tanstack/start-client-core#start-core/deployment`). Typical next step for Vercel/Node/Railway is adding the Nitro Vite plugin when you are ready to deploy.
+## More detail
 
-## Architectural decisions
-
-- Keep the generated structure; prefer Intent skills over guessing Start/Router APIs.
-- Isomorphic-by-default: use `createServerFn` / `createServerOnlyFn` / `createClientOnlyFn` for environment boundaries.
-- No auth, DB, or partner integrations in this blank app.
-
-## Known gotchas
-
-- CLI `--tailwind` flag is ignored (Tailwind is on by default).
-- Nested `my-tanstack-app/` from the create command was flattened into this repo root on purpose.
-- `intent install` keeps a short skill-loading block at the top of this file; durable project notes live below it.
-- Future Intent versions may require an explicit `intent.skills` allowlist.
-
-## Next steps
-
-1. `npm run dev` and open http://localhost:3000
-2. Add routes under `src/routes/` as needed
-3. Load matching Intent skills before Start/Router/Devtools changes
-4. When deploying, load the deployment skill and add the appropriate Nitro/host preset
-5. Add `.env` / typed env declarations only when real config is introduced
+Full constraints: [`.cursor/rules/preishare.mdc`](.cursor/rules/preishare.mdc). Path inventory: [`docs/onboarding/repo-map.md`](docs/onboarding/repo-map.md).
