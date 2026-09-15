@@ -1,0 +1,92 @@
+---
+description: PREIshare project rules for AI coding agents
+alwaysApply: true
+---
+
+<!--
+  Cursor .mdc frontmatter: `alwaysApply: true` loads these rules on every chat
+  in this repo. No `globs` — newcomers and agents should see the same constraints
+  whether they edit docs or `src/`. Update this file when docs/onboarding/repo-map.md
+  proves a path claim wrong.
+-->
+
+# PREIshare — agent rules
+
+## Project identity
+
+PREIshare is a real-estate intelligence product. This repository is a **single-package** TanStack Start app at the repo root (`package.json` name `preishare-org-repo`), not an `apps/` + `packages/` monorepo.
+
+Prefer existing files and patterns in this tree over greenfield frameworks, extra apps, or a workspace layout that is not here. If `docs/onboarding/repo-map.md` and the working tree disagree, **trust the tree** and update the map.
+
+Sources used for this draft: `docs/onboarding/repo-map.md`, `docs/onboarding/setup-log.md`, `.cursorrules`, and `AGENTS.md`. `docs/onboarding/team-orientation-notes.md` is cited in the setup log but **was not in this clone** — do not invent its contents.
+
+## Stack (do not substitute)
+
+Do not swap these for Next.js, Remix, a different CSS system, or a different package manager unless a human explicitly tasks that migration.
+
+- Language: TypeScript (strict mode in `tsconfig.json`)
+- App framework: TanStack Start + React 19, Vite 8, file-based TanStack Router (`src/routes/`)
+- Styling: Tailwind CSS v4 and tokens in `src/styles.css` (e.g. `--sea-ink`)
+- Package manager: **npm** (`package-lock.json`). Ignore the leftover `pnpm` block in `package.json` unless the team changes policy.
+- Collaboration: Git + GitHub pull requests (fork workflow; default branch `main`)
+
+**Backend / data (intended vs present):** product direction is Supabase, PostgreSQL, and pgvector. In the current tree those are **not implemented** — no `src/lib/supabase.ts`, no `supabase/` folder, no migrations, no `.env.example`. `.cursorrules` mentions a Supabase client; **do not create that client, schema, or secrets to satisfy the rule** unless the human explicitly asks. `src/lib/user.ts` `getUser()` always returns `null`; treat it as a stub, not auth.
+
+## Where to work (new contributors)
+
+Safe first surfaces (from the repo map):
+
+- `docs/` and especially `docs/onboarding/`
+- Root `README.md` (scaffold getting-started; keep commands accurate)
+- Small, clearly scoped UI copy or comments the team already identified
+
+There is no `CONTRIBUTING.md` / `CONTRIBUTORS` file in this clone — do not add one unless asked.
+
+Read before edit:
+
+- `docs/onboarding/repo-map.md`
+- `README.md`, `AGENTS.md`, and this rules file
+- Neighboring files in the folder you will change
+
+Avoid unless explicitly tasked:
+
+- Auth, billing, database migrations, CI, or secrets
+- `package.json` / `package-lock.json` dependency upgrades
+- `src/routeTree.gen.ts` (generated; `.vscode` marks it readonly)
+- App shell and toolchain: `src/router.tsx`, `vite.config.ts`, `src/routes/__root.tsx`
+- Inventing `apps/`, `packages/`, `.github/workflows/`, or a data layer
+
+## How to change code
+
+- Prefer the smallest diff that completes the requested task
+- Match existing naming, file layout, and TypeScript style in neighboring files
+- App layout to preserve: `src/routes/` (export `Route` via `createFileRoute` / `createRootRoute`; default-export page components), `src/components/`, `src/styles.css`, `src/router.tsx`
+- Imports: ESM; path aliases `#/*` and `@/*` → `src/*`. Prefer `Link` for in-app navigation
+- Isomorphic by default: `createServerFn` / `createServerOnlyFn` / `createClientOnlyFn` for env boundaries. Server secrets via `process.env` inside handlers only — never module scope, never `VITE_*`. Client-exposed config only as `VITE_*`
+- Before substantial Start / Router / Devtools edits: `npx @tanstack/intent@latest list`, then `load` a matching skill; do not guess those APIs
+- Follow existing component patterns in `src/components`
+- When tests exist for the area you change, update them. There is **no test script or test files** in the current tree — do not add a test framework unless the human asks
+- Do not drive-by refactor unrelated modules
+- Do not add new libraries unless the human explicitly asks and justifies them
+
+## Secrets and safety
+
+- Never commit `.env`, API keys, tokens, or connection strings (`.env` is gitignored)
+- Never print secrets into docs, rules, or chat logs
+- If a change needs configuration, document the variable **name** only (for example `SUPABASE_URL` or `VITE_PUBLIC_APP_URL`), not a real value
+- Do not put secrets in `VITE_*` variables (they ship in the client bundle)
+
+## Agent workflow
+
+- Restate the goal and list files you will touch before editing
+- Implement in small steps; stop for verification after each logical unit
+- When unsure about PREIshare structure, consult `docs/onboarding/` and the repo map rather than inventing paths
+- If you would create a folder or package that the repo map lists as **not found**, stop and ask — that is usually a hallucinated layout
+
+## Out of scope defaults
+
+- No rewriting the entire app "for best practices" unprompted
+- No changing product requirements silently — flag product questions to the human
+- No treating this scaffold as a blank canvas for a new framework
+- No hand-editing generated route trees
+- No implementing login, payments, vector search, or production migrations unless that is the task

@@ -37,6 +37,7 @@ PREIshare appears to be organized as: **single package**. There is one root `pac
 | `vite.config.ts` | config | Vite plugins: Devtools, Tailwind, TanStack Start, React | yes |
 | `.gitignore` | config | Ignores `node_modules`, `dist`, `.env`, TanStack/Nitro output dirs | yes |
 | `.vscode/` | config | Editor settings that hide/lock generated `routeTree.gen.ts` | yes |
+| `.cursor/` | config | Cursor agent rules (`.cursor/rules/preishare.mdc`); added after the first map draft | yes |
 | `.git/` | other | Local Git metadata (not application code) | yes |
 
 Not present at top level (searched, do not invent): `apps/`, `packages/`, `.github/`, `CONTRIBUTING.md`, `.env.example`.
@@ -66,7 +67,7 @@ Not present at top level (searched, do not invent): `apps/`, `packages/`, `.gith
 
 - TypeScript / lint / format config: `tsconfig.json` only (strict TypeScript flags). **No** ESLint, Prettier, Biome, or EditorConfig project files. **No** `lint` / `format` / `typecheck` scripts in `package.json`.
 - CI workflows (e.g. GitHub Actions): **not found** (no `.github/workflows/`).
-- Editor or agent config already present: `.vscode/settings.json`; `.cursorrules`; `AGENTS.md`; `.cta.json`. No in-repo `.cursor/` skills folder; TanStack Intent skills are loaded via `npx @tanstack/intent@latest` per `AGENTS.md`.
+- Editor or agent config already present: `.vscode/settings.json`; `.cursorrules`; `AGENTS.md`; `.cta.json`; `.cursor/rules/preishare.mdc` (always-apply agent rules). No in-repo Cursor **skills** folder; TanStack Intent skills are loaded via `npx @tanstack/intent@latest` per `AGENTS.md`.
 - Scripts from package manifests that look like dev/build/test:
   - `dev` — Vite on port 3000
   - `build` — production build
