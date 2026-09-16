@@ -17,6 +17,18 @@ To build this application for production:
 npm run build
 ```
 
+# Deploying to Vercel
+
+This app is TanStack Start with the Nitro Vite plugin. Vercel should use the **TanStack Start** framework preset so the build runs as SSR on Vercel Functions, not a static `dist` export.
+
+`vercel.json` sets `"framework": "tanstack-start"`. Do not set the output directory to `dist` in the Vercel dashboard.
+
+```bash
+npm run build
+```
+
+On Vercel, Nitro applies the `vercel` preset automatically. Locally the same command produces a Node server under `.output/`.
+
 ## Styling
 
 This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
