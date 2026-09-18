@@ -1,0 +1,3 @@
+# Keeps src/types/ in Git until real type modules land.
+# Later steps own investor-listing.ts and other domain type files.
+# This file is a placeholder only — not a TypeScript module.
