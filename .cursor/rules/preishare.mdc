@@ -40,6 +40,7 @@ Safe first surfaces (from the repo map):
 
 - `docs/` and especially `docs/onboarding/`
 - `docs/domain/` (investor listing brief and field inventory)
+- `src/types/` (shared listing types; README only until type modules are tasked)
 - Root `README.md` (scaffold getting-started; keep commands accurate)
 - Small, clearly scoped UI copy or comments the team already identified
 
