@@ -43,6 +43,7 @@ There is no `test`, `lint`, or `format` script. Do not invent them.
 | Path | Why |
 |------|-----|
 | `docs/onboarding/` | Onboarding notes. Start with `docs/onboarding/repo-map.md`. Also `docs/onboarding/setup-log.md`. |
+| `docs/domain/` | Investor listing business language: domain brief and field inventory. Honor these before inventing listing types. |
 | `.cursor/rules/preishare.mdc` | Always-apply agent rules: identity, stack, safe surfaces, do-nots |
 | `src/routes/`, `src/components/`, `src/styles.css` | App UI |
 | `README.md` | Scaffold getting-started |
