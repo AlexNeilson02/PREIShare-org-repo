@@ -1,3 +1,6 @@
+import type { ListingStatus } from './listing-status';
+import type { PropertyType } from './property-type';
+
 /**
  * Core PREIshare investor listing — scalar fields only.
  * Nested types (address, financials, contacts) and unions
@@ -24,4 +27,10 @@ export interface InvestorListing {
 
   /** When this listing was last meaningfully edited. */
   updatedAt: string;
+
+  /** Lifecycle state: draft, published, under_offer, sold, or archived. */
+  status: ListingStatus;
+
+  /** Asset class: multifamily, office, retail, industrial, mixed_use, or land. */
+  propertyType: PropertyType;
 }
