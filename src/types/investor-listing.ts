@@ -2,26 +2,26 @@
  * Core PREIshare investor listing — scalar fields only.
  * Nested types (address, financials, contacts) and unions
  * (status, property type) are added in later steps.
+ *
+ * Optional fields (`?`) may be absent on draft or archived listings.
+ * They are required for published, under_offer, and sold.
  */
 export interface InvestorListing {
-  /** Stable unique id for this listing (assigned by the system). */
+  /** Stable unique id for the listing. */
   id: string;
 
-  /** Short public headline shown in search results and cards. */
+  /** Short name shown to investors. */
   title: string;
 
-  /** Longer plain-text description of the investment opportunity. */
-  summary: string;
+  /** Longer investor-facing summary of the opportunity. */
+  description?: string;
 
-  /**
-   * Asking price in whole US dollars (no currency symbol).
-   * Example: 450000 means $450,000.
-   */
-  askingPrice: number;
+  /** Listed asking price as a number, not a formatted dollar string. */
+  askingPrice?: number;
 
-  /** ISO-8601 datetime string when the listing was first created. */
+  /** When this listing record was created. */
   createdAt: string;
 
-  /** ISO-8601 datetime string when the listing was last updated. */
+  /** When this listing was last meaningfully edited. */
   updatedAt: string;
 }
