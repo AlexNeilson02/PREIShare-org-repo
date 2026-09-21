@@ -37,6 +37,7 @@ There is no `test`, `lint`, or `format` script. Do not invent them.
 | `npm run build` | Production build |
 | `npm run preview` | Serve the production build |
 | `npm run generate-routes` | TanStack Router codegen (`tsr generate`) |
+| `npm run typecheck` | `tsc --noEmit` — strict TypeScript check, no JS emit |
 
 ## Where to look
 
@@ -46,6 +47,7 @@ There is no `test`, `lint`, or `format` script. Do not invent them.
 | `docs/domain/` | Investor listing business language: domain brief and field inventory. Honor these before inventing listing types. |
 | `.cursor/rules/preishare.mdc` | Always-apply agent rules: identity, stack, safe surfaces, do-nots |
 | `src/routes/`, `src/components/`, `src/styles.css` | App UI |
+| `src/types/` | Shared investor listing types (README + `.gitkeep` until type modules land) |
 | `README.md` | Scaffold getting-started |
 
 `docs/onboarding/team-orientation-notes.md` is named in the setup log but **is not in this clone** — do not invent it.

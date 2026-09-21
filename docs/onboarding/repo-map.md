@@ -18,13 +18,13 @@ Verification basis:
 
 ## 1. Overview (5–8 sentences)
 
-PREIshare appears to be organized as: **single package**. There is one root `package.json` (`preishare-org-repo`), no `apps/` or `packages/` workspaces, and no `pnpm-workspace.yaml` / Turbo / Nx config. In plain language, the product code seems to live mainly in `src/` — a blank TanStack Start (React 19 + Vite 8 + Tailwind CSS v4) app with file-based routes. Shared libraries or packages appear in **none found** (only a small `src/lib/user.ts` stub inside the same app). Docs live in `docs/`: onboarding notes in `docs/onboarding/` (this map plus `setup-log.md`) and investor-listing domain language in `docs/domain/` (`investor-listing-domain-brief.md`, `listing-field-inventory.md`). I am intentionally not editing application code while building this map. `AGENTS.md` and `.cursorrules` describe the intended stack and future Supabase usage, but the running app is still the scaffold starter (Home and About), not a wired backend. There is no test script or test files in the current tree, even though `.cursorrules` says to write tests for new features.
+PREIshare appears to be organized as: **single package**. There is one root `package.json` (`preishare-org-repo`), no `apps/` or `packages/` workspaces, and no `pnpm-workspace.yaml` / Turbo / Nx config. In plain language, the product code seems to live mainly in `src/` — a blank TanStack Start (React 19 + Vite 8 + Tailwind CSS v4) app with file-based routes. Shared libraries or packages appear in **none found** (only a small `src/lib/user.ts` stub inside the same app). `src/types/` is reserved for investor listing TypeScript types (README and `.gitkeep` only until later steps add modules). Docs live in `docs/`: onboarding notes in `docs/onboarding/` (this map plus `setup-log.md`) and investor-listing domain language in `docs/domain/` (`investor-listing-domain-brief.md`, `listing-field-inventory.md`). I am intentionally not editing application code while building this map. `AGENTS.md` and `.cursorrules` describe the intended stack and future Supabase usage, but the running app is still the scaffold starter (Home and About), not a wired backend. There is no test script or test files in the current tree, even though `.cursorrules` says to write tests for new features.
 
 ## 2. Top-level inventory
 
 | Path | Kind (app / package / config / docs / other) | One-sentence purpose | Verified by me? (yes/no) |
 |------|-----------------------------------------------|----------------------|---------------------------|
-| `src/` | app | TanStack Start application: routes, components, styles, and a user stub | yes |
+| `src/` | app | TanStack Start application: routes, components, styles, user stub, and listing-types folder | yes |
 | `docs/` | docs | Onboarding notes plus investor-listing domain brief and field inventory | yes |
 | `package.json` | config | Root package manifest (`preishare-org-repo`) and npm scripts | yes |
 | `package-lock.json` | config | npm lockfile for reproducible installs | yes |
@@ -53,6 +53,7 @@ Not present at top level (searched, do not invent): `apps/`, `packages/`, `.gith
   - `src/routes/about.tsx` — `/about`
   - `src/components/` — `Header.tsx`, `Footer.tsx`, `ThemeToggle.tsx`
   - `src/styles.css` — Tailwind entry and visual tokens (e.g. `--sea-ink`)
+  - `src/types/` — investor listing types folder (README + `.gitkeep`; no domain modules yet)
   - `src/routeTree.gen.ts` — **generated** route tree (do not edit by hand)
 - How this area relates to user-facing screens: visitors currently see a starter landing page and an About page, with a sticky header (Home / About / external Docs) and footer. Theme preference is stored in browser `localStorage`, not a server. This is the whole UI surface today.
 
@@ -65,7 +66,7 @@ Not present at top level (searched, do not invent): `apps/`, `packages/`, `.gith
 
 ## 5. Tooling and CI
 
-- TypeScript / lint / format config: `tsconfig.json` only (strict TypeScript flags). **No** ESLint, Prettier, Biome, or EditorConfig project files. **No** `lint` / `format` / `typecheck` scripts in `package.json`.
+- TypeScript / lint / format config: `tsconfig.json` (strict TypeScript flags including `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes`). **No** ESLint, Prettier, Biome, or EditorConfig project files. **No** `lint` / `format` scripts. `package.json` has a `typecheck` script (`tsc --noEmit`).
 - CI workflows (e.g. GitHub Actions): **not found** (no `.github/workflows/`).
 - Editor or agent config already present: `.vscode/settings.json`; `.cursorrules`; `AGENTS.md`; `.cta.json`; `.cursor/rules/preishare.mdc` (always-apply agent rules). No in-repo Cursor **skills** folder; TanStack Intent skills are loaded via `npx @tanstack/intent@latest` per `AGENTS.md`.
 - Scripts from package manifests that look like dev/build/test:
@@ -73,6 +74,7 @@ Not present at top level (searched, do not invent): `apps/`, `packages/`, `.gith
   - `build` — production build
   - `preview` — serve the production build
   - `generate-routes` — `tsr generate`
+  - `typecheck` — `tsc --noEmit`
   - **no `test` script**
 
 ## 6. Safe first-touch vs do-not-edit-yet
