@@ -2,6 +2,8 @@ import type { ListingStatus } from './listing-status';
 import type { PropertyType } from './property-type';
 import type { Address } from './address';
 import type { FinancialSummary } from './financial-summary';
+import type { InvestorContact } from './investor-contact';
+import type { Ownership } from './ownership';
 
 /**
  * Core PREIshare investor listing — scalar fields only.
@@ -38,4 +40,13 @@ export interface InvestorListing {
 
   /** Asset class: multifamily, office, retail, industrial, mixed_use, or land. */
   propertyType: PropertyType;
+
+  /** People tied to this listing. */
+  contacts: InvestorContact[];
+
+  /** Must match the id of one contact in contacts. */
+  primaryContactId: string;
+
+  /** How contacts relate to the asset, including optional share. */
+  ownership: Ownership[];
 }
