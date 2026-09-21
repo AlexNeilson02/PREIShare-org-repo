@@ -1,16 +1,10 @@
-export type OwnershipRelationship =
-  | 'primary_owner'
-  | 'co_owner'
-  | 'broker'
-  | 'property_manager';
-
 export interface Ownership {
-  /** Which contact this row refers to (name or id). */
-  contactNameOrId: string;
+  /** Person or entity name. */
+  ownerName: string;
 
-  /** Relationship to the asset. */
-  relationship: OwnershipRelationship;
+  /** Optional ownership share as a percent (0–100). */
+  ownershipPercent?: number;
 
-  /** Optional ownership share as a percent (60 means 60%). */
-  sharePercent?: number;
+  /** Optional free text about splits or co-owners. */
+  notes?: string;
 }

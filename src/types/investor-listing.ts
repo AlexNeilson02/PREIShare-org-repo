@@ -6,9 +6,8 @@ import type { InvestorContact } from './investor-contact';
 import type { Ownership } from './ownership';
 
 /**
- * Core PREIshare investor listing — scalar fields only.
- * Nested types (address, financials, contacts) and unions
- * (status, property type) are added in later steps.
+ * Core PREIshare investor listing, including nested address, financials,
+ * contacts, and ownership, plus closed status and property-type unions.
  *
  * Optional fields (`?`) may be absent on draft or archived listings.
  * They are required for published, under_offer, and sold.
@@ -47,6 +46,6 @@ export interface InvestorListing {
   /** Must match the id of one contact in contacts. */
   primaryContactId: string;
 
-  /** How contacts relate to the asset, including optional share. */
-  ownership: Ownership[];
+  /** Named owner, optional percent share, and optional notes. */
+  ownership: Ownership;
 }
