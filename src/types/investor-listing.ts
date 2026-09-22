@@ -47,15 +47,25 @@ export interface InvestorListingBase {
 }
 
 // status is the discriminant of this union.
-// closedAt is required only when the listing is sold.
+// closedAt is required only when sold; description, financials, and a non-empty contacts list are required for published, under_offer, and sold.
 export type InvestorListing =
   | (InvestorListingBase & {
-      status: 'draft' | 'published' | 'under_offer' | 'archived';
+      status: 'draft' | 'archived';
       closedAt?: undefined;
+    })
+  | (InvestorListingBase & {
+      status: 'published' | 'under_offer';
+      closedAt?: undefined;
+      description: string;
+      financials: FinancialSummary;
+      contacts: [InvestorContact, ...InvestorContact[]];
     })
   | (InvestorListingBase & {
       status: 'sold';
       closedAt: string;
+      description: string;
+      financials: FinancialSummary;
+      contacts: [InvestorContact, ...InvestorContact[]];
     });
 
 export type SoldInvestorListing = Extract<InvestorListing, { status: 'sold' }>;
