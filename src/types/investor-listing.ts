@@ -1,4 +1,3 @@
-import type { ListingStatus } from './listing-status';
 import type { PropertyType } from './property-type';
 import type { Address } from './address';
 import type { FinancialSummary } from './financial-summary';
@@ -7,14 +6,14 @@ import type { Ownership } from './ownership';
 
 /**
  * Core PREIshare investor listing, including nested address, financials,
- * contacts, and ownership, plus closed status and property-type unions.
+ * contacts, and ownership, plus closed property-type unions.
  *
  * Optional fields (`?`) may be absent on draft or archived listings.
  * They are required for published, under_offer, and sold.
  */
-export interface InvestorListing {
+export interface InvestorListingBase {
   /** Stable unique id for the listing. */
-  id: string;
+  readonly id: string;
 
   /** Short name shown to investors. */
   title: string;
@@ -29,13 +28,10 @@ export interface InvestorListing {
   financials?: FinancialSummary;
 
   /** When this listing record was created. */
-  createdAt: string;
+  readonly createdAt: string;
 
   /** When this listing was last meaningfully edited. */
-  updatedAt: string;
-
-  /** Lifecycle state: draft, published, under_offer, sold, or archived. */
-  status: ListingStatus;
+  readonly updatedAt: string;
 
   /** Asset class: multifamily, office, retail, industrial, mixed_use, or land. */
   propertyType: PropertyType;
@@ -49,3 +45,18 @@ export interface InvestorListing {
   /** Named owner, optional percent share, and optional notes. */
   ownership: Ownership;
 }
+
+// status is the discriminant of this union.
+// closedAt is required only when the listing is sold.
+export type InvestorListing =
+  | (InvestorListingBase & {
+      status: 'draft' | 'published' | 'under_offer' | 'archived';
+      closedAt?: undefined;
+    })
+  | (InvestorListingBase & {
+      status: 'sold';
+      closedAt: string;
+    });
+
+export type SoldInvestorListing = Extract<InvestorListing, { status: 'sold' }>;
+export type OpenInvestorListing = Exclude<InvestorListing, { status: 'sold' }>;
