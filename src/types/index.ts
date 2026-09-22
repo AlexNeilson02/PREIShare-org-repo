@@ -1,4 +1,9 @@
-export type { InvestorListing } from './investor-listing';
+export type {
+  InvestorListing,
+  InvestorListingBase,
+  SoldInvestorListing,
+  OpenInvestorListing,
+} from './investor-listing';
 export type { InvestorContact, ContactRole } from './investor-contact';
 export type { Ownership } from './ownership';
 export type { Address } from './address';
