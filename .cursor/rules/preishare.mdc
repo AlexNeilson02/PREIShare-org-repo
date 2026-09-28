@@ -40,6 +40,7 @@ Safe first surfaces (from the repo map):
 
 - `docs/` and especially `docs/onboarding/`
 - `docs/domain/` (investor listing brief and field inventory)
+- `docs/investor-dashboard-brief.md` (Sprint 3 dashboard shell brief)
 - Root `README.md` (scaffold getting-started; keep commands accurate)
 - Small, clearly scoped UI copy or comments the team already identified
 
@@ -84,7 +85,7 @@ Avoid unless explicitly tasked:
 - Plan → small diff → verify (see root `AGENTS.md`)
 - Restate the goal and list files you will touch before editing
 - Implement in small steps; stop for verification after each logical unit
-- When unsure about PREIshare structure, consult `docs/onboarding/` and the repo map rather than inventing paths. For investor listing fields and lifecycle, honor `docs/domain/` before inventing types.
+- When unsure about PREIshare structure, consult `docs/onboarding/` and the repo map rather than inventing paths. For investor listing fields and lifecycle, honor `docs/domain/` before inventing types. For dashboard shell work, honor `docs/investor-dashboard-brief.md` (mock data only, no auth, four areas only).
 - If you would create a folder or package that the repo map lists as **not found**, stop and ask — that is usually a hallucinated layout
 
 ## Out of scope defaults
