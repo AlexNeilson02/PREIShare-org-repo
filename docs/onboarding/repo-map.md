@@ -39,6 +39,7 @@ PREIshare appears to be organized as: **single package**. There is one root `pac
 | `.vscode/` | config | Editor settings that hide/lock generated `routeTree.gen.ts` | yes |
 | `.cursor/` | config | Cursor agent rules (`.cursor/rules/preishare.mdc`); added after the first map draft | yes |
 | `.git/` | other | Local Git metadata (not application code) | yes |
+| `notes/` | other | Placeholder folder with a blank `blank.txt` | yes |
 
 Not present at top level (searched, do not invent): `apps/`, `packages/`, `.github/`, `CONTRIBUTING.md`, `.env.example`.
 
