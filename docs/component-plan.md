@@ -9,7 +9,7 @@ Mock data only; no real API calls.
 | Component | Responsibility | Used on | Must NOT do |
 |-----------|----------------|---------|-------------|
 | AppShell | Page frame combining Sidebar, Header, and main content. | Home, Portfolio, Deals, Profile | Own page widgets or load data. |
-| Sidebar | Renders nav links from navConfig on ALL screen widths; collapses or stacks on narrow screens. | Home, Portfolio, Deals, Profile | Define its own nav list or show page titles. |
+| Sidebar | Renders nav links from navConfig on ALL screen widths; collapses, moves to the footer or stacks on narrow screens. | Home, Portfolio, Deals, Profile | Define its own nav list or show page titles. |
 | Header | Shows the current page title (read from navConfig) and a placeholder user area. | Home, Portfolio, Deals, Profile | Define the nav list. |
 | navConfig | The single source of nav labels, paths, and page titles. | Home, Portfolio, Deals, Profile | Render anything. |
 

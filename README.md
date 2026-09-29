@@ -1,4 +1,28 @@
-Welcome to your new TanStack Start app!
+# PREIshare Investor Dashboard Shell
+
+This is the PREIshare investor dashboard shell. It is a TanStack Start app with TypeScript and React.
+
+Prerequisite: Node.js LTS.
+
+Install:
+
+```bash
+npm install
+```
+
+Run:
+
+```bash
+npm run dev
+```
+
+Then open http://localhost:3000
+
+Planning docs live in `docs/` (`dashboard-ia.md`, `component-plan.md`). Routes live in `src/routes/`. Routing is file-based: each file is a URL.
+
+Coming later: dashboard, portfolio, deals, and profile routes are added in a later step.
+
+`src/routeTree.gen.ts` is auto-generated. Do not edit it by hand.
 
 # Getting Started
 
@@ -37,12 +61,9 @@ This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
 
 If you prefer not to use Tailwind CSS:
 
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Remove `@tailwindcss/vite` and `tailwindcss` from `package.json`
-
-
+1. Replace the Tailwind import in `src/styles.css` with your own styles
+2. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
+3. Remove `@tailwindcss/vite` and `tailwindcss` from `package.json`
 
 ## Routing
 
@@ -185,12 +206,6 @@ function PeopleComponent() {
 ```
 
 Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
 
 # Learn More
 
