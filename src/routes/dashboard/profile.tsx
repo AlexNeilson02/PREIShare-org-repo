@@ -4,9 +4,9 @@ export const Route = createFileRoute('/dashboard/profile')({ component: ProfileP
 
 function ProfilePage() {
   return (
-    <main>
+    <section>
       <h1>Profile</h1>
       <p>Mock placeholder: member name and contact details will go here.</p>
-    </main>
+    </section>
   )
 }

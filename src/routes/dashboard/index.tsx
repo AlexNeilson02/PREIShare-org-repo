@@ -4,9 +4,9 @@ export const Route = createFileRoute('/dashboard/')({ component: DashboardHomePa
 
 function DashboardHomePage() {
   return (
-    <main>
+    <section>
       <h1>Dashboard overview</h1>
       <p>Mock placeholder: stats, portfolio summary, and recent activity will go here.</p>
-    </main>
+    </section>
   )
 }

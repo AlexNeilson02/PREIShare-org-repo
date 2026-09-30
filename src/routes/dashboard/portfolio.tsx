@@ -4,9 +4,9 @@ export const Route = createFileRoute('/dashboard/portfolio')({ component: Portfo
 
 function PortfolioPage() {
   return (
-    <main>
+    <section>
       <h1>Portfolio</h1>
       <p>Mock placeholder: holdings table will go here.</p>
-    </main>
+    </section>
   )
 }
