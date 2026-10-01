@@ -71,7 +71,7 @@ export function PortfolioTable({
           {emptyMessage}
         </p>
       ) : (
-        <div className="table-wrap demo-table-shell overflow-x-auto">
+        <div className="table-wrap dash-table-wrap demo-table-shell overflow-x-auto">
           <table className="demo-table min-w-[40rem]">
             <thead>
               <tr>

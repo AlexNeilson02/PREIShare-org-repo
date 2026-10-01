@@ -9,7 +9,11 @@ export function Sidebar({
   children?: ReactNode
 }) {
   return (
-    <aside aria-label="Investor navigation" className="dashboard-sidebar p-4 md:w-64">
+    <aside
+      id="dashboard-sidebar"
+      aria-label="Investor navigation"
+      className="dashboard-sidebar dash-sidebar p-4 md:w-64"
+    >
       <div className="sidebar-brand">{brandLabel}</div>
       <NavItems />
       {children}

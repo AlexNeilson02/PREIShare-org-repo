@@ -1,0 +1,132 @@
+/* Shared responsive + accessibility polish for the PREIshare investor shell. */
+
+:root {
+  --dash-sidebar-width: 16rem;
+  --dash-header-height: 3.5rem;
+  --dash-gap: 1rem;
+  --dash-radius: 0.5rem;
+  --dash-focus: var(--lagoon-deep);
+  --dash-touch-min: 44px;
+}
+
+.dash-shell {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.dash-sidebar {
+  width: var(--dash-sidebar-width);
+  flex-shrink: 0;
+  transition: max-height 180ms ease;
+}
+
+.dash-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-header {
+  min-height: var(--dash-header-height);
+  display: flex;
+  align-items: center;
+  gap: var(--dash-gap);
+  padding: 0.75rem 1rem;
+}
+
+.dash-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--dash-gap);
+  min-width: 0;
+}
+
+.dash-card-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--dash-gap);
+}
+
+@media (min-width: 640px) {
+  .dash-content .dash-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .dash-content .dash-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.dash-table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dash-nav a,
+.dash-nav button,
+.dash-header button {
+  min-height: var(--dash-touch-min);
+  min-width: var(--dash-touch-min);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.dash-nav a:focus-visible,
+.dash-nav button:focus-visible,
+.dash-header a:focus-visible,
+.dash-header button:focus-visible,
+.dash-content a:focus-visible,
+.dash-content button:focus-visible {
+  outline: 2px solid var(--dash-focus);
+  outline-offset: 2px;
+}
+
+.dash-menu-toggle {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: var(--dash-radius);
+  background: var(--chip-bg);
+  color: var(--sea-ink);
+}
+
+@media (min-width: 768px) {
+  .dash-menu-toggle {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .dash-shell {
+    flex-direction: column;
+  }
+
+  .dash-sidebar {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+
+  .dash-shell.nav-open .dash-sidebar {
+    max-height: 80vh;
+    overflow: auto;
+    visibility: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-sidebar,
+  .dash-shell * {
+    transition: none !important;
+  }
+}

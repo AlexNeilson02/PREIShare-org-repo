@@ -5,7 +5,7 @@ import { dashboardNavItems } from './navConfig'
 
 export function NavItems() {
   return (
-    <nav aria-label="Dashboard" className="sidebar-nav">
+    <nav aria-label="Dashboard" className="sidebar-nav dash-nav">
       <ul className="nav-list m-0 flex list-none flex-col gap-1 p-0">
         {dashboardNavItems.map((item) => (
           <li key={item.path}>

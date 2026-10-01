@@ -14,7 +14,7 @@ function DashboardHomePage() {
         Demo view — all figures are placeholders
       </p>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="dash-card-grid grid grid-cols-1 gap-4 md:grid-cols-3">
         <StatsCard
           label="Total portfolio value"
           value={TOTAL_PORTFOLIO_VALUE}
