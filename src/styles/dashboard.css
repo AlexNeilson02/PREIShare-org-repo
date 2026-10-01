@@ -111,13 +111,16 @@
   }
 
   .dash-sidebar {
+    display: none;
     width: 100%;
+    min-height: 0;
     max-height: 0;
     overflow: hidden;
     visibility: hidden;
   }
 
   .dash-shell.nav-open .dash-sidebar {
+    display: block;
     max-height: 80vh;
     overflow: auto;
     visibility: visible;
