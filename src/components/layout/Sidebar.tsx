@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { NavItems } from './NavItems'
 
 export function Sidebar({
   brandLabel = 'PREIshare',
@@ -8,24 +9,13 @@ export function Sidebar({
   children?: ReactNode
 }) {
   return (
-    <aside aria-label="Investor navigation" className="dashboard-sidebar p-4 md:w-64">
+    <aside
+      id="dashboard-sidebar"
+      aria-label="Investor navigation"
+      className="dashboard-sidebar dash-sidebar p-4 md:w-64"
+    >
       <div className="sidebar-brand">{brandLabel}</div>
-      <nav className="sidebar-nav">
-        <ul>
-          <li>
-            <a href="/dashboard">Home</a>
-          </li>
-          <li>
-            <a href="/dashboard/portfolio">Portfolio</a>
-          </li>
-          <li>
-            <a href="/dashboard/deals">Deals</a>
-          </li>
-          <li>
-            <a href="/dashboard/profile">Profile</a>
-          </li>
-        </ul>
-      </nav>
+      <NavItems />
       {children}
     </aside>
   )
