@@ -8,6 +8,7 @@ export type PortfolioSummaryProps = {
   title?: string
   holdings: PortfolioHolding[]
   totalLabel?: string
+  emptyMessage?: string
 }
 
 // Mock placeholder data — not real PREIshare data.
@@ -21,6 +22,7 @@ export function PortfolioSummary({
   title = 'Portfolio summary',
   holdings,
   totalLabel,
+  emptyMessage = 'No portfolio holdings to show yet.',
 }: PortfolioSummaryProps) {
   return (
     <section className="island-shell rounded-2xl p-5 sm:p-6">
@@ -28,17 +30,21 @@ export function PortfolioSummary({
       {totalLabel ? (
         <p className="m-0 mt-2 text-sm text-[var(--sea-ink-soft)]">{totalLabel}</p>
       ) : null}
-      <ul className="m-0 mt-4 list-none space-y-3 p-0">
-        {holdings.map((holding) => (
-          <li
-            key={holding.id}
-            className="flex items-center justify-between gap-3 border-b border-[var(--line)] pb-3 last:border-b-0 last:pb-0"
-          >
-            <span className="font-semibold text-[var(--sea-ink)]">{holding.name}</span>
-            <span className="text-sm text-[var(--sea-ink-soft)]">{holding.allocationLabel}</span>
-          </li>
-        ))}
-      </ul>
+      {holdings.length === 0 ? (
+        <p className="m-0 mt-4 text-sm text-[var(--sea-ink-soft)]">{emptyMessage}</p>
+      ) : (
+        <ul className="m-0 mt-4 list-none space-y-3 p-0">
+          {holdings.map((holding) => (
+            <li
+              key={holding.id}
+              className="flex items-center justify-between gap-3 border-b border-[var(--line)] pb-3 last:border-b-0 last:pb-0"
+            >
+              <span className="font-semibold text-[var(--sea-ink)]">{holding.name}</span>
+              <span className="text-sm text-[var(--sea-ink-soft)]">{holding.allocationLabel}</span>
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   )
 }
