@@ -1,37 +1,36 @@
 # PREIshare Investor Dashboard Shell
 
-This is the PREIshare investor dashboard shell. It is a TanStack Start app with TypeScript and React.
+PREIshare investor dashboard shell: a TanStack Start (TypeScript + React) app where members can scan Home, Portfolio, Deals, and Profile using labeled mock data.
 
-Prerequisite: Node.js LTS.
-
-Install:
+**Prerequisite:** Node.js LTS. (`package.json` does not pin an `engines` Node version.)
 
 ```bash
 npm install
-```
-
-Run:
-
-```bash
 npm run dev
 ```
 
-Then open http://localhost:3000
+Then open http://localhost:3000/dashboard
 
-Planning docs live in `docs/` (`dashboard-ia.md`, `component-plan.md`). Routes live in `src/routes/`. Routing is file-based: each file is a URL.
+`package.json` scripts (this is the full list):
 
-Coming later: dashboard, portfolio, deals, and profile routes are added in a later step.
+| Script | Command | What it is |
+|--------|---------|------------|
+| `npm run dev` | `vite dev --port 3000` | Vite dev server on port 3000 |
+| `npm run build` | `vite build` | Production build |
+| `npm run preview` | `vite preview` | Serve the production build |
+| `npm run generate-routes` | `tsr generate` | TanStack Router codegen |
+
+There is no `test`, `lint`, or `typecheck` script.
+
+Sprint 3 docs:
+
+- [Handoff](docs/sprint3-handoff.md) — what shipped, how to demo, known limits
+- [Architecture decisions](docs/architecture-decisions.md) — why the shell is shaped this way
+- Also in `docs/`: `investor-dashboard-brief.md`, `dashboard-ia.md`, `component-plan.md`, `verification-checklist.md`
+
+Routes live in `src/routes/`. Routing is file-based: each file is a URL. Dashboard areas: `/dashboard`, `/dashboard/portfolio`, `/dashboard/deals`, `/dashboard/profile`.
 
 `src/routeTree.gen.ts` is auto-generated. Do not edit it by hand.
-
-# Getting Started
-
-To run this application:
-
-```bash
-npm install
-npm run dev
-```
 
 # Building For Production
 
