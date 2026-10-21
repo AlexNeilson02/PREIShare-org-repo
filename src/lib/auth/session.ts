@@ -32,11 +32,10 @@ export const getUser = createServerFn({ method: 'GET' }).handler(async () => {
 })
 
 export const signOut = createServerFn({ method: 'POST' }).handler(async () => {
-  try {
-    const supabase = createServerSupabaseClient()
-    await supabase.auth.signOut()
-  } catch {
-    return null
+  const supabase = createServerSupabaseClient()
+  const { error } = await supabase.auth.signOut()
+  if (error) {
+    throw new Error(error.message)
   }
-  return null
+  return { ok: true as const }
 })
