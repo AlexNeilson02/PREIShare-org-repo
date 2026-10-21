@@ -5,28 +5,37 @@ import { createServerSupabaseClient } from '../supabase/server'
 
 export const getSession = createServerFn({ method: 'GET' }).handler(
   async () => {
-    const supabase = createServerSupabaseClient()
-    const { data, error } = await supabase.auth.getSession()
-    if (error) {
+    try {
+      const supabase = createServerSupabaseClient()
+      const { data, error } = await supabase.auth.getSession()
+      if (error) {
+        return null
+      }
+      return data.session
+    } catch {
       return null
     }
-    return data.session
   },
 )
 
 export const getUser = createServerFn({ method: 'GET' }).handler(async () => {
-  const supabase = createServerSupabaseClient()
-  const { data, error } = await supabase.auth.getUser()
-  if (error) {
+  try {
+    const supabase = createServerSupabaseClient()
+    const { data, error } = await supabase.auth.getUser()
+    if (error) {
+      return null
+    }
+    return data.user
+  } catch {
     return null
   }
-  return data.user
 })
 
 export const signOut = createServerFn({ method: 'POST' }).handler(async () => {
-  const supabase = createServerSupabaseClient()
-  const { error } = await supabase.auth.signOut()
-  if (error) {
+  try {
+    const supabase = createServerSupabaseClient()
+    await supabase.auth.signOut()
+  } catch {
     return null
   }
   return null
