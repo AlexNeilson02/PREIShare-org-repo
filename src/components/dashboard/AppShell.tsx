@@ -7,13 +7,14 @@ export type AppShellProps = {
   children: ReactNode
   title?: string
   sidebar?: ReactNode
+  actions?: ReactNode
 }
 
-export function AppShell({ children, title, sidebar }: AppShellProps) {
+export function AppShell({ children, title, sidebar, actions }: AppShellProps) {
   return (
     <div className="flex min-h-full flex-col">
       <MobileNav />
-      <Header title={title} />
+      <Header title={title} actions={actions} />
       <div className="flex flex-1">
         <aside
           aria-label="Dashboard sidebar"
