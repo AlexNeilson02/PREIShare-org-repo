@@ -1,7 +1,16 @@
-import { Outlet, createFileRoute } from '@tanstack/react-router'
+import { Outlet, createFileRoute, redirect } from '@tanstack/react-router'
+import { getUser } from '../../lib/auth/session'
 import { AppShell } from '../../components/dashboard/AppShell'
 
-export const Route = createFileRoute('/dashboard')({ component: DashboardLayout })
+export const Route = createFileRoute('/dashboard')({
+  beforeLoad: async () => {
+    const user = await getUser()
+    if (!user) {
+      throw redirect({ to: '/auth/login' })
+    }
+  },
+  component: DashboardLayout,
+})
 
 function DashboardLayout() {
   return (
