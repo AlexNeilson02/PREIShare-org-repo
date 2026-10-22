@@ -69,13 +69,23 @@ This work is not deployed.
 
 ## 6. Recommended next-sprint work
 
-Keep the current split: browser anon key for login/signup, `createServerFn` for session and listings, migration RLS as written. Do not replace it with a homegrown session store or drop the `owner_id = auth.uid()` policies.
+Keep the current split: browser anon key for login/signup, `createServerFn` for session and listings, migration RLS as written. Do not replace it with a homegrown session store or drop the `owner_id = auth.uid()` policies. Do not collapse anon-key vs service-role into one helper.
 
-1. **Session helper first (blocks everything else).** Change `getUser()` / `getSession()` to the anon key plus the sponsor JWT so `beforeLoad` can recognize a signed-in sponsor. Re-test A4 and G1. Until this lands, listings UI and RLS tests cannot run.
+**Prerequisites (do these first; they block product work):**
+
+1. **Session helper.** Change `getUser()` / `getSession()` to the anon key plus the sponsor JWT so `beforeLoad` can recognize a signed-in sponsor. Re-test A4 and G1. Until this lands, listings UI and RLS tests cannot run.
 2. Point `listMyListings`, `createListing`, and `updateListing` at the same anon-key + sponsor-JWT client so the migration policies are in force. Keep setting `owner_id` from the session, not from the request body. Re-check R5/G4.
 3. Attach a non-production project, apply the migration, create User A, and complete create-then-list (L1, L4, L5).
 4. Create a second distinct sponsor (email only in notes). Prove User B cannot list, update, insert-as-A, or SELECT User A’s rows with anon key + User B JWT (R1–R4). Run logged-out SELECT and confirm 0 rows (D8).
 5. Leave investor Header/nav labels as they are until §7 is answered.
+
+The product options below wait until that session and RLS-client foundation is stable. Each one extends `property_listings`, the existing `owner_id = auth.uid()` policies, and the anon-key + sponsor-JWT session. None of them is a reason to put the service-role key in the browser or to bypass RLS.
+
+**Stakeholder choices (pick after the foundation is stable):**
+
+- **Richer listing fields.** Add columns the first table deferred (`propertyType`, `financials.currency` / IRR / cap rate, contacts, ownership) onto `public.property_listings` (or child tables keyed by listing `id`). Keep `owner_id` as the RLS key. Same session, same `listings_*_own` rules; widen the Zod schema and form, do not invent a second write path.
+- **Approvals workflow.** Add an approval state on the same rows (new column or a constrained use of `status`) so a listing can sit pending before `published`. Reads and writes still go through the signed-in session and `owner_id = auth.uid()`. Admin review of another owner’s row would need an explicit new policy; do not use the service role in the client to “just approve.”
+- **pgvector search.** Add an embedding column (or a related table) on `property_listings` and search with the anon key plus the sponsor JWT so RLS still hides User A’s rows from User B. Indexing jobs that need the service role stay server-only. Search is not a reason to `USING (true)` or to share one helper for browser and admin.
 
 ## 7. Open questions for stakeholders
 
