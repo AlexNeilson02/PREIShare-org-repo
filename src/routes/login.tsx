@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState, type FormEvent } from 'react'
-import { createBrowserSupabaseClient } from '../../lib/supabase/client'
+import { createBrowserSupabaseClient } from '../lib/supabase/client'
 
-export const Route = createFileRoute('/auth/login')({
+export const Route = createFileRoute('/login')({
   component: LoginPage,
 })
 
