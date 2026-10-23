@@ -1,12 +1,12 @@
 // server-only, never import from a browser component
 
 import { createServerFn } from '@tanstack/react-start'
-import { createServerSupabaseClient } from '../supabase/server'
+import { createSupabaseServerClient } from '../supabase.server'
 
 export const getSession = createServerFn({ method: 'GET' }).handler(
   async () => {
     try {
-      const supabase = createServerSupabaseClient()
+      const supabase = createSupabaseServerClient()
       const { data, error } = await supabase.auth.getSession()
       if (error) {
         return null
@@ -20,7 +20,7 @@ export const getSession = createServerFn({ method: 'GET' }).handler(
 
 export const getUser = createServerFn({ method: 'GET' }).handler(async () => {
   try {
-    const supabase = createServerSupabaseClient()
+    const supabase = createSupabaseServerClient()
     const { data, error } = await supabase.auth.getUser()
     if (error) {
       return null
@@ -32,7 +32,7 @@ export const getUser = createServerFn({ method: 'GET' }).handler(async () => {
 })
 
 export const signOut = createServerFn({ method: 'POST' }).handler(async () => {
-  const supabase = createServerSupabaseClient()
+  const supabase = createSupabaseServerClient()
   const { error } = await supabase.auth.signOut()
   if (error) {
     throw new Error(error.message)
