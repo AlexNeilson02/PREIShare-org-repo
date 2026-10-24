@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { Link, createFileRoute, redirect } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import { createSupabaseServerClient } from '../../lib/supabase.server'
 
@@ -45,9 +45,17 @@ function PropertiesPage() {
 
   return (
     <section>
-      <h1 className="display-title m-0 text-3xl font-bold text-[var(--sea-ink)]">
-        Your properties
-      </h1>
+      <div className="mb-2 flex flex-wrap items-end justify-between gap-3">
+        <h1 className="display-title m-0 text-3xl font-bold text-[var(--sea-ink)]">
+          Your properties
+        </h1>
+        <Link
+          to="/dashboard/properties/new"
+          className="rounded-full border border-[rgba(50,143,151,0.3)] bg-[rgba(79,184,178,0.14)] px-4 py-2 text-sm font-semibold text-[var(--lagoon-deep)] no-underline"
+        >
+          Add property
+        </Link>
+      </div>
       <p className="mt-2 text-[var(--sea-ink-soft)]">
         Visibility is enforced by the database.
       </p>
