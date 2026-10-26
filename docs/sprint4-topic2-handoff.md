@@ -12,7 +12,7 @@ A sponsor is supposed to sign in, see only their own `property_listings` rows, a
 
 ## Architecture decisions (why we built it this way)
 
-- Two clients: the browser file (`src/lib/supabase.client.ts`) may only see public `VITE_*` values. The server file (`src/lib/supabase.server.ts`) has `createSupabaseServerClient` for sponsor session + RLS, and `createSupabaseServiceRoleClient` (also exported as `createServerSupabaseClient`) for admin work that bypasses RLS.
+- Two clients: the browser implementation (`src/lib/supabase/client.ts`, re-exported from `src/lib/supabase.client.ts`) may only see public `VITE_*` values. Routes import `src/lib/supabase/client.ts` so production SSR does not hit `*.client.ts` import-protection. The server file (`src/lib/supabase.server.ts`) has `createSupabaseServerClient` for sponsor session + RLS, and `createSupabaseServiceRoleClient` (also exported as `createServerSupabaseClient`) for admin work that bypasses RLS.
 - Listings live in `public.property_listings`. There is no `public.properties` table in this tree. Ownership is `owner_id`, meant to equal `auth.uid()`.
 - The dashboard layout is the gate. Child routes under `/dashboard` inherit that `beforeLoad`. Login lives at `/login`.
 - Properties list does not add `.eq('owner_id', …)` in the loader. Create sets `owner_id` from `user.id` after Zod parse. Both rely on the session-aware client so database policies can run.
@@ -30,7 +30,7 @@ A sponsor is supposed to sign in, see only their own `property_listings` rows, a
 
 These paths exist in this tree:
 
-- `src/lib/supabase.client.ts` — browser client; public URL + anon key only
+- `src/lib/supabase/client.ts` — browser client; public URL + anon key only. `src/lib/supabase.client.ts` re-exports it; do not import the `*.client.ts` filename from isomorphic routes.
 - `src/lib/supabase.server.ts` — `createSupabaseServerClient` (session / RLS) and `createSupabaseServiceRoleClient` / `createServerSupabaseClient` (bypasses RLS)
 - `src/routes/login.tsx` — `/login`; `createBrowserSupabaseClient` + `signInWithPassword`
 - `src/routes/dashboard.tsx` — `/dashboard` layout; `getUser()` gate; two-stage sign-out
@@ -53,7 +53,7 @@ Copied from `docs/security-verification-checklist.md` (not-run rows and residual
 - Sponsor B listing Sponsor A’s rows was not-run (5.1). There were no test accounts. RLS was never tested with a second sponsor.
 - Checklist 5.2 is policy text only, not a second-user JWT test.
 - `src/server/listings.ts` still uses `createServerSupabaseClient` (the service-role alias) for `/dashboard/listings` list, create, and update. Those calls bypass RLS. Ownership there is only the TypeScript `owner_id` filter. That is not the `/dashboard/properties` path.
-- Production `npm run build` got client assets out; the SSR step then failed because `src/routes/dashboard.tsx` imports the browser helper through `src/lib/supabase.client.ts`. `npm run dev` still served the logged-out checks.
+- Production `npm run build` now completes. The previous SSR failure was login/dashboard importing `src/lib/supabase.client.ts` (`*.client.ts` import-protection); those routes import `src/lib/supabase/client.ts` instead.
 - `.env.example` does not list `SUPABASE_ANON_KEY`. The session-aware server client accepts that name or falls back to `VITE_SUPABASE_ANON_KEY`.
 - Stakeholder verdict in the checklist: **not ready** to show.
 
@@ -65,7 +65,7 @@ Copied from `docs/security-verification-checklist.md` (not-run rows and residual
 - Automated tests proving sponsor A cannot read sponsor B’s `property_listings` rows, using the anon key plus each sponsor’s JWT — not the service role.
 - Attach a non-production Supabase project, apply `supabase/migrations/20250321000000_property_listings.sql`, create two sponsors, and re-run the not-run rows in `docs/security-verification-checklist.md`.
 - Point `src/server/listings.ts` at `createSupabaseServerClient` if `/dashboard/listings` remains in use, so it does not bypass RLS.
-- Fix the production SSR import of `*.client.ts` from the dashboard layout if you need `npm run build` to finish.
+- Keep isomorphic routes importing `src/lib/supabase/client.ts`, not `src/lib/supabase.client.ts`, so production SSR import-protection does not fail.
 
 ## Handoff checklist for the next learner
 
