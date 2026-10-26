@@ -1,14 +1,14 @@
 import { Outlet, createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
-import { getUser, signOut } from '../../lib/auth/session'
-import { AppShell } from '../../components/dashboard/AppShell'
-import { createBrowserSupabaseClient } from '../../lib/supabase/client'
+import { getUser, signOut } from '../lib/auth/session'
+import { AppShell } from '../components/dashboard/AppShell'
+import { createBrowserSupabaseClient } from '../lib/supabase/client'
 
 export const Route = createFileRoute('/dashboard')({
   beforeLoad: async () => {
     const user = await getUser()
     if (!user) {
-      throw redirect({ to: '/auth/login' })
+      throw redirect({ to: '/login' })
     }
   },
   component: DashboardLayout,
@@ -32,7 +32,7 @@ function DashboardLayout() {
       // Server session is already cleared; still return the sponsor to login.
     }
 
-    await navigate({ to: '/auth/login' })
+    await navigate({ to: '/login' })
   }
 
   return (
