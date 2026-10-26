@@ -11,7 +11,7 @@ import type { Database } from './supabase/types'
 
 function requireEnv(name: string, value: string | undefined): string {
   if (!value) {
-    throw new Error(`Missing server env ${name}. See docs/env-var-checklist.md.`)
+    throw new Error(`Missing server env ${name}. See docs/setup/supabase-env-checklist.md.`)
   }
   return value
 }
