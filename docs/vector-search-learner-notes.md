@@ -2,7 +2,8 @@
 
 ## 1. My plain-language definition
 
-_[fill in myself]_
+Vector search compares the buyer's query embedding to the stored property
+embeddings and returns the closest listings first.
 
 ## 2. How a search runs (steps I can explain)
 
@@ -53,7 +54,8 @@ written down.
 
 ## 4. Worked ranking examples (no real math required)
 
-_[fill in myself]_
+These are invented listing blurbs for practice, not rows from the database
+and not scores from a real model. Rank 1 means best (closest in meaning).
 
 ### Example A — clear winner
 
@@ -61,8 +63,9 @@ Query: "family-friendly home near good schools"
 
 | Listing blurb | Expected rank | Why |
 |---------------|---------------|-----|
-| | | |
-| | | |
+| Four-bedroom house with a backyard, a short walk to the neighborhood elementary, and a playroom off the kitchen | 1 (best) | Same intent: a home for a household with children, close to schooling. |
+| Bright downtown loft over bars and offices, no yard, nightlife at the door | 2 | City adult living — not a family house near schools. |
+| Concrete warehouse with loading docks and an interstate on-ramp | 3 (worst) | Logistics space, not a place to live with kids. |
 
 ### Example B — different words, same intent
 
@@ -70,8 +73,9 @@ Query: "cabin by the lake"
 
 | Listing blurb | Expected rank | Why |
 |---------------|---------------|-----|
-| | | |
-| | | |
+| Rustic woodland retreat on the water, pine beams, canoe at the dock | 1 (best) | Different words, same intent: a quiet stay in the woods by water. It never says cabin or lake. |
+| Compact condo above restaurants, walk-to-everything downtown | 2 | Urban living on foot — not a woodland water stay. |
+| Industrial warehouse with truck bays and highway access | 3 (worst) | Freight, not a cabin-like retreat. |
 
 ## 5. Top-K and scores (what I will check later)
 
@@ -122,7 +126,47 @@ function:
 
 ## 8. Link back to requirements
 
-_[fill in myself]_
+Ranking in this tutorial is not a generic demo. It has to serve
+[docs/semantic-search-requirements.md](semantic-search-requirements.md)
+(the problem, queries, and success checks) and
+[docs/embeddings-learner-notes.md](embeddings-learner-notes.md) (what an
+embedding is, and that generation vs storage come *before* ranking).
+
+From the requirements brief, later verification should still run these
+buyer queries (wording copied from that file):
+
+1. "quiet cabin near water with good rental upside" — a good top result
+   reads as a small, low-key stay near a lake, river, or coast, with some
+   mention of guests, income, or investment, even if it never uses cabin,
+   quiet, water, or rental together.
+2. "family-friendly home close to good schools" — a good top result reads
+   as a house (or similar) suited to a household with children, near
+   schooling, even if it never says "family-friendly" or "schools."
+3. Near-miss control: "industrial warehouse with loading docks and highway
+   access." A correct search ranks lifestyle homes and cabins **low** for
+   this query. Keyword overlap must not pull the cabin, family home, or
+   condo to the top.
+
+Relevance / intent success lines from that same brief (what "good ranking"
+must look like here):
+
+- A search returns a **ranked list**, best match first (highest similarity
+  at the top).
+- At least one demo query returns a relevant property even when that
+  query's key words are **absent** from the listing text.
+- A beginner can explain why keyword search fails on that query (the
+  listing never contains those exact words, so a word-matcher has nothing
+  to hit, while meaning-based search can still rank it).
+- The near-miss control query does **not** put the cabin / family-home /
+  downtown-condo samples at the top.
+
+From the embeddings learner notes: an embedding is a number list for
+meaning, not a keyword index. Generation (make the numbers) and storage
+(save them with the property row) are different jobs. Search later embeds
+the buyer's query, then compares it to stored property embeddings.
+**Ranking is this step** — turning that closeness into best-first order.
+Two listings can be close without sharing words; mixing models in one
+table makes the scores meaningless.
 
 ## 9. Open questions for later steps
 
