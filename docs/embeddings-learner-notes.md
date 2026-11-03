@@ -2,24 +2,49 @@
 
 ## Plain-language definition
 
-An embedding is a list of numbers that stands for the *meaning* of a piece of
-text (for us: a property description or a buyer's search phrase). It is not a
-keyword index and not a human-readable summary.
+In PREIshare, an embedding is a long list of numbers that stands in for the
+*idea* behind a piece of text — usually a property description, or the
+sentence a buyer types when they search. Those numbers are not the original
+sentence stored in disguise, not a short summary a person could read, and not
+a keyword index (a lookup of exact words). They are only a compact way to put
+"what this text is about" onto a map of meaning, so similar ideas can sit near
+each other.
 
 ## Tiny intuition (not real model output)
 
-Imagine a toy 3-number embedding just to picture "near" vs "far":
+To picture "near" vs "far," pretend we only had three numbers. This sketch is
+for intuition; it is not output from a real model, and it does not pick how
+long a real list should be.
 
-- "lakefront cabin, quiet, strong Airbnb history" → [0.9, 0.8, 0.1]
-- "waterfront cottage, peaceful, good short-term rental" → [0.88, 0.82, 0.12]  (nearby)
-- "downtown loft near nightlife and offices" → [0.1, 0.2, 0.95]  (far from the cabin)
+- "peaceful lakeside retreat with proven guest stays" → [0.91, 0.79, 0.08]
+- "calm cottage by the shore, strong weekend booking history" → [0.87, 0.81, 0.11]
+  (nearby: same idea, different wording)
+- "busy city penthouse next to bars and transit" → [0.12, 0.18, 0.93]
+  (far from the lakeside stay)
 
-Real embeddings are much longer lists (often hundreds or thousands of numbers).
-The idea is the same: similar meaning → similar number patterns.
+A real embedding is a much longer list — often hundreds or thousands of
+numbers. The picture stays the same: similar meaning produces similar number
+patterns; unrelated meaning sits apart.
 
 ## PREIshare examples from our requirements
 
-_[fill in myself]_
+Buyer query (from the semantic search brief): "quiet cabin near water with good
+rental upside"
+
+Listing that should be close (different words, same idea): "A small cedar lodge
+tucked against a private pond. Weekends stay booked with travelers; the last
+owner ran it as a short-stay investment rather than a year-round home."
+
+Listing that should be far: "Tilt-up warehouse with four loading docks, trailer
+parking, and direct highway access for freight."
+
+Why the lodge is closer: the query is asking for a low-key stay by water with
+income from guests. The lodge never uses cabin, quiet, water, or rental
+together, but it still describes that same kind of place. The warehouse is
+logistics space, not a place to live or host guests, so its meaning should sit
+far from the query. A word-matcher could miss the lodge and, if it got lucky
+on a shared word like access, might even treat the warehouse as a hit.
+Meaning-based search should not.
 
 ## Generation vs storage (do not mix these up)
 
@@ -47,7 +72,15 @@ Search will later embed the buyer's query (generation), then compare it to store
 
 ## What I can explain to a teammate in 60 seconds
 
-_[fill in myself]_
+We want buyers to search PREIshare listings by meaning, not by repeating the
+same words a sponsor happened to type. An embedding is just a list of numbers
+that stands for a piece of text: we generate that list from a listing's
+description, then store it with the property row. Later, a query like "quiet
+cabin near water with good rental upside" gets turned into numbers the same
+way, and we look for stored lists that sit nearby. Two descriptions can be
+close even when they share almost no wording, and a warehouse listing should
+stay far from a cabin search. Making the numbers and saving the numbers are
+different jobs; turning "nearby" into a ranked list is the next step.
 
 ## Open questions before similarity ranking (Step 3)
 
