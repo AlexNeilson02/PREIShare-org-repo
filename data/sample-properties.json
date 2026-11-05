@@ -1,0 +1,61 @@
+{
+  "_comment": "Fields match supabase/migrations/20250315000000_enable_pgvector_properties.sql. embedding is generated at seed time, not stored here.",
+  "properties": [
+    {
+      "id": "11111111-1111-4111-8111-111111111111",
+      "title": "Cedar hideaway among the pines",
+      "description": "A small woodland retreat sits at the shoreline with a dock and a canoe. Pines wrap the porch, and the nearest highway is far enough that evenings are still. Summer weekends fill with guests who come to paddle and sit by the fire, and the books show solid seasonal income from those stays. This is a restful getaway, not a city crash pad.",
+      "location": "Gunflint Trail, Minnesota",
+      "price_usd": 329000
+    },
+    {
+      "id": "22222222-2222-4222-8222-222222222222",
+      "title": "Open loft over late-night venues",
+      "description": "An open-plan unit sits above busy restaurants and clubs that run until dawn. Bass from the street, neon, and foot traffic are part of the deal. It suits investors targeting young professionals who want city energy, not a restful stay in the woods.",
+      "location": "North Loop, Minneapolis, Minnesota",
+      "price_usd": 419000
+    },
+    {
+      "id": "33333333-3333-4333-8333-333333333333",
+      "title": "Roomy house on a cul-de-sac",
+      "description": "This four-bedroom home has a fenced backyard, a playroom off the kitchen, and a short bike ride to the neighborhood elementary. Households with children tend to lease for years. It is a long-term place to live, not a vacation-rental play.",
+      "location": "Eden Prairie, Minnesota",
+      "price_usd": 562000
+    },
+    {
+      "id": "44444444-4444-4444-8444-444444444444",
+      "title": "Two-flat near campus with steady tenants",
+      "description": "A side-by-side duplex stays leased year-round to students and staff. Both units cash-flow, turnover is predictable, and there is no lake, no dock, and no weekend-guest story here—just reliable rent from people who need a place to live during the school year.",
+      "location": "Dinkytown, Minneapolis, Minnesota",
+      "price_usd": 485000
+    },
+    {
+      "id": "55555555-5555-4555-8555-555555555555",
+      "title": "Compact core condominium",
+      "description": "A one-bedroom condominium in the city center puts coffee, dinner, and grocery shops a few doors down. Daily life happens on foot; a car is optional. The building is residential and quiet at night compared with the club block, but it is still urban living, not a shoreline cabin.",
+      "location": "Downtown Minneapolis, Minnesota",
+      "price_usd": 387000
+    },
+    {
+      "id": "66666666-6666-4666-8666-666666666666",
+      "title": "Distribution warehouse off the interstate",
+      "description": "A concrete logistics building with loading docks, truck bays, and an on-ramp two minutes away. Zoned for freight, not overnight stays. There is a water main for fire suppression and a downtown delivery route, but this is industrial space—not a home, loft, or lakeside retreat.",
+      "location": "Fridley industrial park, Minnesota",
+      "price_usd": 910000
+    },
+    {
+      "id": "77777777-7777-4777-8777-777777777777",
+      "title": "Nightclub corner building",
+      "description": "A mixed-use corner sits over a nightclub with rooftop DJ sets on weekends. Heavy bass, neon, and crowds until dawn. This is an income play on nightlife traffic, the opposite of a peaceful stay among trees by a lake.",
+      "location": "First Avenue district, Minneapolis, Minnesota",
+      "price_usd": 640000
+    },
+    {
+      "id": "88888888-8888-4888-8888-888888888888",
+      "title": "Pasture farmhouse with no shoreline",
+      "description": "A peaceful farmhouse on ten acres of pasture, far from town. Roosters at dawn, a gravel drive, and wide views of fields. There is no lake, river, or dock on the land. It fits someone who wants space and quiet, not a waterfront hideaway or a downtown condo.",
+      "location": "Goodhue County, Minnesota",
+      "price_usd": 445000
+    }
+  ]
+}
