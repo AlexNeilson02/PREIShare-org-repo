@@ -1,8 +1,7 @@
 # .github/workflows/pr-ci.yml
-# Scaffold only — typecheck/build/lint/test come in later steps.
-# Match Node version and package manager to docs/ci/project-ci-inventory.md.
-# Inventory: npm + package-lock.json; Node 22 (no .nvmrc / engines).
-# Design: trigger is pull_request only (docs/ci/pipeline-design.md).
+# Typecheck + build after install. Lint and test come in a later step.
+# Node 22 and npm ci: docs/ci/project-ci-inventory.md
+# Order: docs/ci/pipeline-design.md (install → typecheck → build)
 
 name: PR CI
 
@@ -11,7 +10,7 @@ on:
 
 jobs:
   ci:
-    name: Install dependencies
+    name: Install, typecheck, and build
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -25,3 +24,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
