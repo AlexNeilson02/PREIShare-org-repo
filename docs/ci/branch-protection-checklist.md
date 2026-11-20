@@ -1,77 +1,44 @@
-# Branch protection checklist — PREIshare dashboard
+# Branch protection checklist (PREIshare PR CI)
 
-YAML cannot turn on GitHub branch protection. This file is the human
-admin checklist so a red `PR CI` run actually blocks merge to `main`.
-Do not paste tokens or enable auto-merge from this document.
+## Purpose
+Connect the automated green/red signal from `.github/workflows/pr-ci.yml` to merge policy on protected branches. This document is for maintainers with admin access. Contributors without admin rights prepare and verify the checklist only. YAML does not turn protection on.
 
-Cross-check: `.github/workflows/pr-ci.yml` and
-`docs/ci/pipeline-design.md`.
+## Protected branches
+- [ ] Protect `main` (the only merge target in `docs/ci/pipeline-design.md`; do not invent extra branches)
 
-## Status check name to require
-
-GitHub matches the **job `name:`**, not the workflow filename.
-
-| Field | Value in this repo |
-| --- | --- |
-| Workflow file | `.github/workflows/pr-ci.yml` |
-| Workflow `name:` | `PR CI` |
-| Job id | `ci` |
-| **Required status check** | **`Install, typecheck, build, lint, and test`** |
-
-If the job `name:` changes, this checklist and the GitHub rule must
-change in the same change. Do not require Vercel preview as the quality
-gate — that is a separate product, not this workflow.
-
-## What the workflow already does (so the rule can work)
-
-These are in YAML today. Protection will not work if they regress.
-
-- [x] Trigger: `pull_request` targeting **`main`** (not push-only, not
-      `workflow_dispatch`-only)
-- [x] PR types include **`opened`** and **`synchronize`** so the first
-      open *and* later commits re-run (also `reopened`,
-      `ready_for_review`)
-- [x] `concurrency` group per PR with **`cancel-in-progress: true`** so
-      the required check is the latest SHA, not a stale in-flight run
-- [x] Stable job `name:` (see table above)
-- [x] Required steps fail the job (no `continue-on-error`)
-- [x] No `paths` / `paths-ignore` filters — a skipped required check
-      stays pending and can block every merge
-- [x] Least-privilege `permissions: contents: read` (no deploy secrets)
-
-## GitHub UI (admin must click — YAML cannot do this)
-
-Settings → Branches → Add branch protection rule (or a ruleset that
-protects `main`). Leave boxes unchecked here until a human confirms
-the setting in the UI.
-
-Branch name pattern: `main`
-
-- [ ] Require a pull request before merging
+## Required status checks
+After the workflow has run at least once on a PR, GitHub will show the check name.
 - [ ] Require status checks to pass before merging
-- [ ] Require branches to be up to date before merging
-- [ ] Add required check: `Install, typecheck, build, lint, and test`
-- [ ] Block force pushes
-- [ ] Block deletions
-- [ ] Do not allow bypassing the above settings (optional; org/admin
-      policy)
+- [ ] Required check name must match the job that runs quality gates: **`quality`** (workflow `name:` is `PR CI`; copy the exact name from a real PR check run if GitHub displays it differently)
+- [ ] Prefer “Require branches to be up to date before merging” so the last CI run reflects the merge base
 
-Approvals are a team choice. CI still does not replace review.
+Do not require Vercel preview or any job that is not in `pr-ci.yml`.
 
-## How to confirm the check name
+## What CI already enforces (automated)
+- Dependency install (`npm ci`)
+- Typecheck (`npm run typecheck`)
+- Production build (`npm run build`)
+- Lint (`npm run lint`)
+- Tests (`npm run test`)
 
-1. Open a PR into `main` (this workflow does not run for PRs whose base
-   is another branch).
-2. Wait for **PR CI** / **Install, typecheck, build, lint, and test**.
-3. Copy that check name into the branch protection rule. Do not type a
-   guess such as `pr-ci.yml` or `ci`.
+## What humans still own (not optional)
+- [ ] At least one human review/approval before merge
+- [ ] AI-assisted review prompts (later step) are helpers only — never auto-merge on AI output alone
+- [ ] Secret/config and product intent review outside pure CI green
 
-## What this checklist does not do
+## What not to require yet
+- [ ] Do not require optional or flaky jobs that are not in `pr-ci.yml`
+- [ ] Do not require deploy/production jobs on pull requests
+- [ ] Do not store secrets in the PR CI workflow just to satisfy a check
 
-- Does not deploy, inject secrets, or call live Supabase / embeddings.
-- Does not auto-merge when green. Humans still approve and merge.
-- Does not enable the GitHub setting by itself. A fork or student clone
-  may lack admin rights; leave the UI boxes unchecked until someone
-  with Settings access applies them.
-- Does not add a browser end-to-end suite (see
-  `docs/ci/ci-scripts-notes.md`).
+## Readiness sign-off
+- [ ] Workflow file path: `.github/workflows/pr-ci.yml`
+- [ ] Triggers: `pull_request` to `main` (`opened`, `synchronize`, `reopened`)
+- [ ] Concurrency: cancel in-progress runs for the same PR when new commits land (`pr-ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}`)
+- [ ] Maintainer who can edit branch protection: __________________
+- [ ] Date verified against a real PR check run: __________________
+
+Learners without Settings → Branches access leave the UI boxes unchecked. This file is the prepared checklist, not proof that protection is on.
+
+## Notes for Sprint 6 handoff
+A red required check should block merge. A green check means automated quality gates passed — not that product review is done.
