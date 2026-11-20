@@ -1,31 +1,29 @@
 # .github/workflows/pr-ci.yml
-# Install → typecheck → build → lint → test.
-# Node 22 and npm: docs/ci/project-ci-inventory.md
-# Script names must exist in package.json.
-# Triggers and concurrency: docs/ci/pipeline-design.md
-# Branch-protection check name: docs/ci/branch-protection-checklist.md
+# Triggers and concurrency only change in this step.
+# Quality steps stay: install → typecheck → build → lint → test.
+# Merge target from docs/ci/pipeline-design.md: main only.
 
 name: PR CI
 
 on:
   pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
 
-# One run per PR. A new push cancels the stale run so branch protection
-# sees the latest SHA, not an in-flight older commit.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: pr-ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
-  ci:
-    # Stable check name for Settings → Branches → required status checks.
-    # Do not rename without updating docs/ci/branch-protection-checklist.md.
-    name: Install, typecheck, build, lint, and test
+  quality:
+    name: quality
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
