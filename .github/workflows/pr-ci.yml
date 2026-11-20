@@ -1,7 +1,7 @@
 # .github/workflows/pr-ci.yml
-# Typecheck + build after install. Lint and test come in a later step.
-# Node 22 and npm ci: docs/ci/project-ci-inventory.md
-# Order: docs/ci/pipeline-design.md (install → typecheck → build)
+# Install → typecheck → build → lint → test.
+# Node 22 and npm: docs/ci/project-ci-inventory.md
+# Script names must exist in package.json.
 
 name: PR CI
 
@@ -10,7 +10,7 @@ on:
 
 jobs:
   ci:
-    name: Install, typecheck, and build
+    name: Install, typecheck, build, lint, and test
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -30,3 +30,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
